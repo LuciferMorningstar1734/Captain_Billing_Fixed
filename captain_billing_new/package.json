@@ -1,0 +1,64 @@
+{
+  "name": "captain-billing",
+  "version": "2.0.0",
+  "description": "Captain Billing System with Firebase Cloud Sync",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --x64",
+    "build-portable": "electron-builder --win portable --x64"
+  },
+  "build": {
+    "appId": "com.captainbilling.app",
+    "productName": "Captain Billing",
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        { "target": "nsis",     "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "fileAssociations": [
+        {
+          "ext": "lbb",
+          "name": "Captain Bill",
+          "description": "Captain Billing File",
+          "icon": "assets/bill-icon.ico",
+          "role": "Editor"
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Captain Billing",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico"
+    },
+    "files": [
+      "config.json",
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "renderer/**/*",
+      "assets/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist"
+    },
+    "publish": null
+  },
+  "keywords": [],
+  "author": "Captain Billing",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "dependencies": {
+    "firebase": "^10.7.0"
+    ,"pdf-parse": "^1.1.1"
+  }
+}

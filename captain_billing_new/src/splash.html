@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Captain Billing</title>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Raleway:wght@300;400;600&display=swap");
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:100%; height:100%; min-height:100vh;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(15,40,90,0.9) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 50% 50%, rgba(5,18,50,0.7) 0%, transparent 70%),
+      linear-gradient(180deg, #060e24 0%, #0a1a38 40%, #081428 70%, #050f20 100%);
+    display:flex; justify-content:center; align-items:center;
+    overflow:hidden; user-select:none;
+    font-family: "Cinzel", serif;
+  }
+  html::after {
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:100;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity:.4;
+  }
+  .scene { width:min(100%, 1200px); padding:48px 24px 60px; display:flex; flex-direction:column; align-items:center; gap:44px; position:relative; }
+  .logo-wrap { position:relative; width:320px; height:320px; }
+  .logo-wrap::before {
+    content:""; position:absolute; inset:-30px; border-radius:50%;
+    background: radial-gradient(circle, rgba(200,160,50,0.22) 0%, rgba(200,160,50,0.06) 45%, transparent 70%);
+    filter:blur(18px); animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity:.7; transform:scale(1); } 50% { opacity:1; transform:scale(1.04); } }
+  .logo-ring {
+    position:absolute; inset:0; border-radius:50%;
+    background: conic-gradient(#c9a84c 0deg,#f5d87a 40deg,#ffe9a0 90deg,#d4a83a 150deg,#b8882a 210deg,#e8c868 270deg,#f5d87a 320deg,#c9a84c 360deg);
+    padding:8px;
+    box-shadow: 0 0 40px rgba(220,175,60,0.55), 0 0 90px rgba(220,175,60,0.28), inset 0 0 20px rgba(255,240,160,0.18);
+  }
+  .logo-panel {
+    width:100%; height:100%; border-radius:50%;
+    background: radial-gradient(circle at 42% 38%, #1c3358, #0a1a38 55%, #060e22);
+    display:grid; place-items:center; overflow:hidden;
+    box-shadow: inset 0 0 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(180,130,20,0.08);
+    position:relative;
+  }
+  .logo-panel::after {
+    content:""; position:absolute; inset:0; border-radius:50%;
+    background: linear-gradient(135deg, rgba(255,240,160,0.12) 0%, transparent 50%); pointer-events:none;
+  }
+ .logo-img {
+  width:105%;
+  height:105%;
+  object-fit:cover;
+  position:relative;
+  z-index:1;
+  transform: translateY(-13px);
+  filter: drop-shadow(0 8px 28px rgba(220,175,60,0.55)) drop-shadow(0 0 60px rgba(180,140,30,0.35));
+}
+  @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
+  .title-block { text-align:center; display:flex; flex-direction:column; gap:16px; }
+  .brand-name {
+    font-size:clamp(64px, 9vw, 108px); font-weight:900; letter-spacing:.3em; text-transform:uppercase; line-height:.88;
+    background: linear-gradient(180deg,#fff5d0 0%,#f7e080 15%,#d4a83a 42%,#f0cc60 68%,#c08820 88%,#f0cc60 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter: drop-shadow(0 6px 24px rgba(180,130,20,0.45));
+  }
+  .sub-text { font-family:"Raleway",sans-serif; font-size:clamp(18px,2.4vw,28px); font-weight:300; letter-spacing:.2em; color:rgba(215,205,185,0.88); text-transform:uppercase; }
+  .loader-container { width:560px; max-width:92vw; display:flex; flex-direction:column; align-items:center; gap:20px; position:relative; }
+  .loader-track {
+    width:100%; height:10px; border-radius:999px;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(200,160,50,0.2);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.4), inset 0 2px 8px rgba(0,0,0,0.3); position:relative; overflow:hidden;
+  }
+  .loader-fill {
+    position:absolute; inset:0; width:0%; border-radius:999px;
+    background: linear-gradient(90deg,rgba(165,120,20,0.8) 0%,rgba(230,175,50,0.95) 35%,rgba(255,220,100,1) 65%,rgba(235,185,55,0.95) 100%);
+    box-shadow: 0 0 16px rgba(230,175,50,0.9), 0 0 40px rgba(200,150,30,0.5), inset 0 1px 2px rgba(255,240,160,0.5);
+    animation: loadBar 5s cubic-bezier(.3,0,.6,1) forwards;
+  }
+  @keyframes loadBar { 0%{width:0%} 15%{width:18%} 40%{width:52%} 70%{width:78%} 90%{width:94%} 100%{width:100%} }
+  .loader-fill::after {
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.28) 50%,transparent 100%);
+    animation: sheen 2.2s ease-in-out infinite;
+  }
+  @keyframes sheen { 0%{transform:translateX(-100%)} 100%{transform:translateX(400%)} }
+  .loader-dot {
+    position:absolute; right:0; top:50%; width:52px; height:52px; transform:translateY(-50%);
+    display:grid; place-items:center; border-radius:50%;
+    background: radial-gradient(circle at 38% 38%, rgba(40,70,120,0.95), rgba(10,25,60,0.98));
+    border:1px solid rgba(200,160,50,0.5);
+    box-shadow: 0 0 22px rgba(200,160,50,0.55), 0 0 6px rgba(255,220,100,0.3);
+  }
+  .loader-dot svg { width:34px; height:34px; filter: drop-shadow(0 0 6px rgba(200,160,50,0.7)); animation: spinCompass 8s linear infinite; }
+  @keyframes spinCompass { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  .load-label { font-family:"Raleway",sans-serif; font-size:13px; letter-spacing:.65em; text-transform:uppercase; color:rgba(215,205,185,0.75); font-weight:600; animation: blink 1.6s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:.75} 50%{opacity:.35} }
+  .version { font-family:"Raleway",sans-serif; font-size:12px; letter-spacing:.2em; color:rgba(215,205,185,0.4); text-transform:uppercase; }
+  .star-corner { position:fixed; bottom:28px; right:28px; width:20px; height:20px; opacity:.55; animation: twinkle 2.5s ease-in-out infinite; }
+  @keyframes twinkle { 0%,100%{opacity:.55;transform:scale(1) rotate(0deg)} 50%{opacity:1;transform:scale(1.15) rotate(45deg)} }
+  @media(max-width:680px){ .logo-wrap{width:240px;height:240px} .brand-name{font-size:56px;letter-spacing:.25em} .loader-container{width:92vw} }
+</style>
+</head>
+<body>
+<div class="scene">
+  <div class="logo-wrap">
+    <div class="logo-ring">
+      <div class="logo-panel">
+          <img class="logo-img" src="../assets/splash-logo.png" alt="Captain Billing Logo">
+      </div>
+    </div>
+  </div>
+  <div class="title-block">
+    <div class="brand-name">CAPTAIN<br>BILLING</div>
+    <div class="sub-text">Professional Billing System</div>
+  </div>
+  <div class="loader-container">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
+      <div class="loader-dot">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="17" stroke="#c9a840" stroke-width="1.2" opacity=".5"/>
+          <circle cx="20" cy="20" r="10" stroke="#c9a840" stroke-width="1" opacity=".4"/>
+          <polygon points="20,4 17.5,18 20,16 22.5,18" fill="#f0cc55"/>
+          <polygon points="20,36 17.5,22 20,24 22.5,22" fill="#8a6010"/>
+          <polygon points="36,20 22,17.5 24,20 22,22.5" fill="#c9a840"/>
+          <polygon points="4,20 18,17.5 16,20 18,22.5" fill="#c9a840"/>
+          <circle cx="20" cy="20" r="2.5" fill="#f0cc55"/>
+          <circle cx="20" cy="20" r="1.2" fill="#fff8e0"/>
+          <line x1="20" y1="8"  x2="20" y2="10" stroke="#c9a840" stroke-width=".8"/>
+          <line x1="20" y1="30" x2="20" y2="32" stroke="#c9a840" stroke-width=".8"/>
+          <line x1="8"  y1="20" x2="10" y2="20" stroke="#c9a840" stroke-width=".8"/>
+          <line x1="30" y1="20" x2="32" y2="20" stroke="#c9a840" stroke-width=".8"/>
+          <line x1="11.7" y1="11.7" x2="13.1" y2="13.1" stroke="#c9a840" stroke-width=".6" opacity=".7"/>
+          <line x1="26.9" y1="11.7" x2="28.3" y2="13.1" stroke="#c9a840" stroke-width=".6" opacity=".7"/>
+          <line x1="11.7" y1="28.3" x2="13.1" y2="26.9" stroke="#c9a840" stroke-width=".6" opacity=".7"/>
+          <line x1="26.9" y1="28.3" x2="28.3" y2="26.9" stroke="#c9a840" stroke-width=".6" opacity=".7"/>
+        </svg>
+      </div>
+    </div>
+    <div class="load-label">LOADING&nbsp;&nbsp;.&nbsp;.&nbsp;.</div>
+    <div class="version">Captain Billing &nbsp;v1.0</div>
+  </div>
+</div>
+
+</body>
+</html>

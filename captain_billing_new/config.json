@@ -1,0 +1,27 @@
+{
+  "_readme": "Captain Billing — Owner Config. Edit ONLY this file then restart the app. All settings are read from here at startup.",
+
+  "firebase": {
+  "apiKey": "AIzaSyDcvQEkEuCqagBXMR0XdpYXqbDLFugRQ_Y",
+  "authDomain": "billing-app-70f4f.firebaseapp.com",
+  "projectId": "billing-app-70f4f",
+  "storageBucket": "billing-app-70f4f.firebasestorage.app",
+  "messagingSenderId": "5472017689",
+  "appId": "1:5472017689:web:afc6825acf1edede9c7988",
+  "measurementId": "G-MMMK10FDSY"
+  },
+
+  "googleWebClientId": "5472017689-u553lpolaha69cagmk0tvho0eidcvbhc.apps.googleusercontent.com",
+
+  "upiId":    "omlathiya9191@fam",
+  "upiName":  "Captain%20Billing",
+  "whatsapp": "919727473974",
+
+  "trialDays": 7,
+
+  "plans": [
+    { "name": "Monthly",  "months": 1,  "price": 150,  "suffix": "/mo",  "save": ""           },
+    { "name": "6 Months", "months": 6,  "price": 529, "suffix": "/6mo", "save": "Save ₹145"  },
+    { "name": "Yearly",   "months": 12, "price": 1000, "suffix": "/yr",  "save": "Save ₹389"  }
+  ]
+}
